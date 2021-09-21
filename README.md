@@ -1,2 +1,2 @@
 # tetris
- trying to make tetris in C
+ trying to clone tetris in C
