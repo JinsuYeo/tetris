@@ -1,0 +1,3 @@
+﻿  Tetris.c
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(29,2): warning C4091: 'typedef ': ignored on left of '_currentLocation' when no variable is declared
+  tetris.vcxproj -> C:\Users\82104\Documents\GitHub\tetris\tetris\Debug\tetris.exe
