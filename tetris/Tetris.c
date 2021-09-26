@@ -26,7 +26,7 @@ typedef char MData;
 typedef struct _currentLocation {
 	int x;
 	int y;
-};
+} Location;
 
 
 //hide cursor
@@ -190,13 +190,120 @@ void drawSubShape(MData map[MAP_SIZE_H][MAP_SIZE_W], int shape[4][4]) {
 	}
 }
 
+void drawShape(MData map[MAP_SIZE_H][MAP_SIZE_W], int shape[4][4], Location curLoc) {
+	int h, w;
 
-//void startTime() {
-//	int i;
-//	HANDLE hand = GetStdHandle(STD_OUTPUT_HANDLE);
-//
+	for (h = 0; h < 4; h++) {
+		for (w = 0; w < 4; w++) {
+			if (shape[h][w] == BLOCK) {
+				map[curLoc.y + h][curLoc.x + w] = BLOCK;
+				//goToXy(curLoc.x + w + 2, curLoc.y + h + 2);
+				printf("бс");
+			}
+		}
+	}
+}
+
+void startTime() {
+	int i;
+	HANDLE hand = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	for (i = 0; i < 3; i++) {
+		goToXy(2, 0);
+		SetConsoleTextAttribute(hand, 14);
+		printf("Start : %d sec", 3 - i);
+		SetConsoleTextAttribute(hand, 7);
+		Sleep(1000);
+	}
+	goToXy(2, 0);
+	printf("                       ");
+}
+
+void mapInit(MData map[MAP_SIZE_H][MAP_SIZE_W]) {
+	int h, w = 0;
+	for (h = 0; h < MAP_SIZE_H; h++) {
+		for (w = 0; w < MAP_SIZE_W; w++) {
+			map[h][w] = EMPTY;
+		}
+	}
+}
+
+void locationInit(Location * curLoc) {
+	curLoc->x = 3;
+	curLoc->y = 0;
+}
+
+void copyBlock(int blockShape[4][4], int copy[4][4]) {
+	int i, j;
+	for (i = 0; i < 4; i++) {
+		for (j = 0; j < 4; j++) {
+			blockShape[i][j] = copy[i][j];
+		}
+	}
+}
+
+void setBlock(int blockShape[4][4]) {
+	int shape[7][4][4] = {
+		{ {0,1,0,0}, {0,1,0,0}, {0,1,0,0}, {0,1,0,0} },
+		{ {0,0,0,0}, {0,1,1,0}, {0,1,1,0}, {0,0,0,0} },
+		{ {0,0,0,0}, {0,1,0,0}, {1,1,1,0}, {0,0,0,0} },
+		{ {0,0,1,0}, {0,1,1,0}, {0,1,0,0}, {0,0,0,0} },
+		{ {0,1,0,0}, {0,1,1,0}, {0,0,1,0}, {0,0,0,0} },
+		{ {0,0,0,0}, {0,1,0,0}, {0,1,1,1}, {0,0,0,0} },
+		{ {0,0,0,0}, {0,1,1,1}, {0,1,0,0}, {0,0,0,0} },
+	};
+
+	srand((unsigned int)(time(NULL)));
+
+	switch (rand() % 7) {
+	case 0:
+		copyBlock(blockShape, shape[0]);
+		break;
+	case 1:
+		copyBlock(blockShape, shape[1]);
+		break;
+	case 2:
+		copyBlock(blockShape, shape[2]);
+		break;
+	case 3:
+		copyBlock(blockShape, shape[3]);
+		break;
+	case 4:
+		copyBlock(blockShape, shape[4]);
+		break;
+	case 5:
+		copyBlock(blockShape, shape[5]);
+		break;
+	case 6:
+		copyBlock(blockShape, shape[6]);
+		break;
+	default : 
+		break;
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+
+void removeShape(MData map[MAP_SIZE_H][MAP_SIZE_W], int blockShape[4][4], Location* curLoc) {
+	int h, w;
+	for (h = 0; h < 4; h++) {
+		for (w = 0; w < 4; w++) {
+			if (blockShape[h][w] == BLOCK)
+				map[curLoc->y + h][curLoc->x + w];
+		}
+	}
+}
+
+//int getShapeLeftLoc() {
 //
 //}
+
+
+
+
+
+
+
 
 
 int main(void) {
