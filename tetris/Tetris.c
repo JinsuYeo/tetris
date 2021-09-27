@@ -294,9 +294,93 @@ void removeShape(MData map[MAP_SIZE_H][MAP_SIZE_W], int blockShape[4][4], Locati
 	}
 }
 
-//int getShapeLeftLoc() {
-//
+int getShapeLeftLoc(int blockShape[4][4]) {
+	int h, w, leftW = 4;
+	for (w = 0; w < 4; w++) {
+		for (h = 0; h < 4; h++) {
+			if (blockShape[h][w] == BLOCK) {
+				if (leftW > w)
+					leftW = w;
+			}
+		}
+	}
+	return leftW;
+}
+
+int getShapeRightLoc(int blockShape[4][4]) {
+	int h, w, rightW = 0;
+	for (w = 3; w >= 0; w--) {
+		for (h = 3; h >= 0; h--) {
+			if (blockShape[h][w] == BLOCK) {
+				if (rightW < w)
+					rightW = w;
+			}
+		}
+	}
+	return rightW + 1;
+}
+
+int getShapeBottomLoc(int blockShape[4][4]) {
+	int h, w, bottomH = 0;
+	for (w = 3; w >= 0; w--) {
+		for (h = 3; h >= 0; h--) {
+			if (blockShape[h][w] == BLOCK) {
+				if (bottomH < h)
+					bottomH = h;
+			}
+		}
+	}
+	return bottomH + 1;
+}
+
+int getEachLeftLoc(int blockShape[4][4], int h) {
+	int w, leftW = 5;
+	for (w = 0; w < 4; w++) {
+		if (blockShape[h][w] == BLOCK) {
+			if (leftW > w)
+				leftW = w;
+		}
+	}
+	return leftW;
+}
+
+int getEachRightLoc(int blockShape[4][4], int h) {
+	int h, w, rightW = -1;
+	for (w = 3; w >= 0; w--) {
+		if (blockShape[h][w] == BLOCK) {
+			if (rightW < w)
+				rightW = w;
+		}
+	}
+	return rightW;
+}
+
+int getEachBottomLoc(int blockShape[4][4], int w) {
+	int h, bottomH = -1;
+		for (h = 3; h >= 0; h--) {
+			if (blockShape[h][w] == BLOCK) {
+				if (bottomH < h)
+					bottomH = h;
+			}
+		}
+	return bottomH;
+}
+
+//void goLeft(MData map[MAP_SIZE_H][MAP_SIZE_W], int blockShape, Location* curLoc) {
+//	int letfW = getShapeLeftLoc(blockShape);
+//	int boundaryArr[4] = { 0 };
+//	for (int i = 0; i < 4; i++) {
+//		boundaryArr[i] = getEachLeftLoc(blockShape, i);
+//	}
+//	if ((curLoc->x) + leftW > 0) {
+//		if()
+//	}
 //}
+//
+
+
+
+
 
 
 
