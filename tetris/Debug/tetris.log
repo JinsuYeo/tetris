@@ -1,2 +1,23 @@
 ﻿  Tetris.c
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(370,40): warning C4047: 'function': 'int (*)[4]' differs in levels of indirection from 'int'
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(370,30): warning C4024: 'getShapeLeftLoc': different types for formal and actual parameter 1
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(373,45): warning C4047: 'function': 'int (*)[4]' differs in levels of indirection from 'int'
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(373,35): warning C4024: 'getEachLeftLoc': different types for formal and actual parameter 1
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(381,31): warning C4047: 'function': 'int (*)[4]' differs in levels of indirection from 'int'
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(381,21): warning C4024: 'removeShape': different types for formal and actual parameter 2
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(388,42): warning C4047: 'function': 'int (*)[4]' differs in levels of indirection from 'int'
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(388,32): warning C4024: 'getShapeRightLoc': different types for formal and actual parameter 1
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(391,45): warning C4047: 'function': 'int (*)[4]' differs in levels of indirection from 'int'
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(391,35): warning C4024: 'getEachLeftLoc': different types for formal and actual parameter 1
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(399,31): warning C4047: 'function': 'int (*)[4]' differs in levels of indirection from 'int'
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(399,21): warning C4024: 'removeShape': different types for formal and actual parameter 2
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(417,44): warning C4047: 'function': 'int (*)[4]' differs in levels of indirection from 'int'
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(417,34): warning C4024: 'getShapeBottomLoc': different types for formal and actual parameter 1
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(420,45): warning C4047: 'function': 'int (*)[4]' differs in levels of indirection from 'int'
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(420,35): warning C4024: 'getEachBottomLoc': different types for formal and actual parameter 1
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(427,27): warning C4047: 'function': 'int (*)[4]' differs in levels of indirection from 'int'
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(427,17): warning C4024: 'fixShape': different types for formal and actual parameter 2
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(434,30): warning C4047: 'function': 'int (*)[4]' differs in levels of indirection from 'int'
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(434,20): warning C4024: 'removeShape': different types for formal and actual parameter 2
+C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(414): warning C4716: 'fixShape': must return a value
   tetris.vcxproj -> C:\Users\82104\Documents\GitHub\tetris\tetris\Debug\tetris.exe
