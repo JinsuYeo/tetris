@@ -438,12 +438,91 @@ int goDown(MData map[MAP_SIZE_H][MAP_SIZE_W], int blockShape, Location* curLoc) 
 	return FALSE;
 }
 
+void rotate(MData map[MAP_SIZE_H][MAP_SIZE_W], int blockShape[4][4], Location* curLoc) {
+	int i, j;
+	int tmp[4][4];
+	int leftW, rightW, bottomH;
 
+	for (i = 0; i < 4; i++) {
+		for (j = 0; j < 4; j++) {
+			if (blockShape[i][j] == BLOCK) {
+				tmp[j][3 - i] = blockShape[i][j];
+				blockShape[i][j] = EMPTY;
+			}
+		}
+	}
 
+	for (i = 0; i < 4; i++) {
+		for (j = 0; j < 4; j++) {
+			if (tmp[i][j] == BLOCK) {
+				blockShape[i][j] = BLOCK;
+			}
+		}
+	}
 
+	leftW = getShapeLeftLoc(blockShape);
+	if (curLoc->x + leftW < 0) {
+		goRight(map, blockShape, curLoc);
+		if (leftW == 0) goRight(map, blockShape, curLoc);
+	}
 
+	rightW = getShapeRightLoc(blockShape);
+	if (curLoc->x + rightW > MAP_SIZE_W) {
+		goLeft(map, blockShape, curLoc);
+		if (rightW == 4) goLeft(map, blockShape, curLoc);
+	}
 
+	bottomH = getShapeBottomLoc(blockShape);
+	if (curLoc->y + bottomH > MAP_SIZE_H) {
+		removeShape(map, blockShape, curLoc);
+		(curLoc->y)--;
+		if (bottomH == 4) (curLoc->y)--;
+	}
+}
 
+int goSpace(MData map[MAP_SIZE_H][MAP_SIZE_W], int blockShape, Location* curLoc) {
+	int bottomH = getShapeBottomLoc(blockShape);
+	int bottomArr[4] = { 0 };
+	for (int i = 0; i < 4; i++) {
+		bottomArr[i] = getEachBottomLoc(blockShape, i);
+	}
+	while((curLoc->y) + bottomH == MAP_SIZE_H
+		|| (bottomArr[1] != -1 && map[curLoc->y + bottomArr[1] + 1][curLoc->x + 1] != EMPTY)
+		|| (bottomArr[0] != -1 && map[curLoc->y + bottomArr[0] + 1][curLoc->x] != EMPTY)
+		|| (bottomArr[3] != -1 && map[curLoc->y + bottomArr[3] + 1][curLoc->x + 3] != EMPTY)
+		|| (bottomArr[2] != -1 && map[curLoc->y + bottomArr[2] + 1][curLoc->x + 2] != EMPTY)) {
+		fixShape(map, blockShape, curLoc);
+
+		Sleep(1000 / 8);
+		return TRUE;
+	}
+
+	if (curLoc->y + bottomH < MAP_SIZE_H) {
+		removeShape(map, blockShape, curLoc);
+		Sleep(1000 / 8);
+		(curLoc->y)++;
+	}
+	return FALSE;
+}
+
+void deleteLine(MData map[MAP_SIZE_H][MAP_SIZE_W], int h) {
+	int w;
+	for (w = 0; w < MAP_SIZE_W; w++) {
+		map[h][w] = EMPTY;
+	}
+}
+
+void organizeLine(MData map[MAP_SIZE_H][MAP_SIZE_W], int h) {
+	int w;
+	while (h > 1) {
+		for (w = 0; w < MAP_SIZE_W; w++) {
+			map[h][w] = map[h - 1][w];
+		}
+		h--;
+	}
+}
+
+//void checkLine() {}
 
 
 
