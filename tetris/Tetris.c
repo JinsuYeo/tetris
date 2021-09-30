@@ -522,9 +522,32 @@ void organizeLine(MData map[MAP_SIZE_H][MAP_SIZE_W], int h) {
 	}
 }
 
-//void checkLine() {}
+void checkLine(MData map[MAP_SIZE_H][MAP_SIZE_W], Location curLoc, int* score) {
+	int h, w, full;
 
+	for (h = MAP_SIZE_H; h >= (curLoc.y - h); h--) {
+		full = 0;
+		for (w = 0; w < MAP_SIZE_W; w++) {
+			if (map[h][w] == EMPTY) {
+				break;
+			}
+			else {
+				full++;
+			}
+		}
 
+		if (full == MAP_SIZE_W) {
+			(*score) += 5;
+			deleteLine(map, h);
+			organizeLine(map, h);
+		}
+	}
+}
+
+//int gameOver(MData map[MAP_SIZE_H][MAP_SIZE_W], int score, int bestScore) {
+//	
+//
+//}
 
 
 
