@@ -544,10 +544,35 @@ void checkLine(MData map[MAP_SIZE_H][MAP_SIZE_W], Location curLoc, int* score) {
 	}
 }
 
-//int gameOver(MData map[MAP_SIZE_H][MAP_SIZE_W], int score, int bestScore) {
-//	
-//
-//}
+int gameOver(MData map[MAP_SIZE_H][MAP_SIZE_W], int score, int bestScore) {
+	FILE* wfp;
+	int w = 0;
+	for (w = 0; w < MAP_SIZE_W; w++) {
+		if (map[0][h] == BLOCK) {
+			HANDLE hand = GetStdHandle(STD_OUTPUT_HANDLE);
+			SetConsoleTextAttribute(hand, 14);
+			goToXy(HALF_W - 7, HALF_H - 2);
+			printf("====== Game Over ======");
+			goToXy(HALF_W - 6, HALF_H - 1);
+			printf("Your score : %4d\n", score);
+			SetConsoleTextAttribute(hand, 7);
+			goToXy(1, MAP_SIZE_H + 3);
+
+			if (score >= bestScore) {
+				wfp = fopen("score.txt", "w");
+				fprintf(wfp, "%d", score);
+				fclose(wfp);
+			}
+
+			system("pause");
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 
