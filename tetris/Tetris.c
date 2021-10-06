@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -16,7 +18,7 @@
 
 #define UP 72
 #define LEFT 75
-#define RIGHRT 77
+#define RIGHT 77
 #define SPACE 32
 #define ESC 27
 #define DOWN 80
@@ -174,7 +176,7 @@ void drawSubShape(MData map[MAP_SIZE_H][MAP_SIZE_W], int shape[4][4]) {
 	for (h = 3; h <= 6; h++) {
 		for (w = HALF_W + 1; w <= HALF_W + 4; w++) {
 			goToXy(w, h);
-			printf(" ");
+			printf("бд");
 		}
 	}
 
@@ -198,7 +200,7 @@ void drawShape(MData map[MAP_SIZE_H][MAP_SIZE_W], int shape[4][4], Location curL
 			if (shape[h][w] == BLOCK) {
 				map[curLoc.y + h][curLoc.x + w] = BLOCK;
 				//goToXy(curLoc.x + w + 2, curLoc.y + h + 2);
-				printf("бс");
+				//printf("бс");
 			}
 		}
 	}
@@ -289,7 +291,7 @@ void removeShape(MData map[MAP_SIZE_H][MAP_SIZE_W], int blockShape[4][4], Locati
 	for (h = 0; h < 4; h++) {
 		for (w = 0; w < 4; w++) {
 			if (blockShape[h][w] == BLOCK)
-				map[curLoc->y + h][curLoc->x + w];
+				map[curLoc->y + h][curLoc->x + w] = EMPTY;
 		}
 	}
 }
@@ -426,13 +428,13 @@ int goDown(MData map[MAP_SIZE_H][MAP_SIZE_W], int blockShape, Location* curLoc) 
 			||(bottomArr[2] != -1 && map[curLoc->y + bottomArr[2] + 1][curLoc->x + 2] != EMPTY)) {
 		fixShape(map, blockShape, curLoc);
 
-		Sleep(1000 / 8);
+		Sleep(1000 / 6);
 		return TRUE;
 	}
 
 	if (curLoc->y + bottomH < MAP_SIZE_H) {
 		removeShape(map, blockShape, curLoc);
-		Sleep(1000 / 8);
+		Sleep(1000 / 6);
 		(curLoc->y)++;
 	}
 	return FALSE;
@@ -486,21 +488,22 @@ int goSpace(MData map[MAP_SIZE_H][MAP_SIZE_W], int blockShape, Location* curLoc)
 	for (int i = 0; i < 4; i++) {
 		bottomArr[i] = getEachBottomLoc(blockShape, i);
 	}
-	while((curLoc->y) + bottomH == MAP_SIZE_H
-		|| (bottomArr[1] != -1 && map[curLoc->y + bottomArr[1] + 1][curLoc->x + 1] != EMPTY)
-		|| (bottomArr[0] != -1 && map[curLoc->y + bottomArr[0] + 1][curLoc->x] != EMPTY)
-		|| (bottomArr[3] != -1 && map[curLoc->y + bottomArr[3] + 1][curLoc->x + 3] != EMPTY)
-		|| (bottomArr[2] != -1 && map[curLoc->y + bottomArr[2] + 1][curLoc->x + 2] != EMPTY)) {
-		fixShape(map, blockShape, curLoc);
+	while (1) {
+		if ((curLoc->y) + bottomH == MAP_SIZE_H
+			|| (bottomArr[1] != -1 && map[curLoc->y + bottomArr[1] + 1][curLoc->x + 1] != EMPTY)
+			|| (bottomArr[0] != -1 && map[curLoc->y + bottomArr[0] + 1][curLoc->x] != EMPTY)
+			|| (bottomArr[3] != -1 && map[curLoc->y + bottomArr[3] + 1][curLoc->x + 3] != EMPTY)
+			|| (bottomArr[2] != -1 && map[curLoc->y + bottomArr[2] + 1][curLoc->x + 2] != EMPTY)) {
+			fixShape(map, blockShape, curLoc);
 
-		Sleep(1000 / 8);
-		return TRUE;
-	}
+			Sleep(1000 / 8);
+			return TRUE;
+		}
 
-	if (curLoc->y + bottomH < MAP_SIZE_H) {
-		removeShape(map, blockShape, curLoc);
-		Sleep(1000 / 8);
-		(curLoc->y)++;
+		if (curLoc->y + bottomH < MAP_SIZE_H) {
+			removeShape(map, blockShape, curLoc);
+			(curLoc->y)++;
+		}
 	}
 	return FALSE;
 }
@@ -525,7 +528,7 @@ void organizeLine(MData map[MAP_SIZE_H][MAP_SIZE_W], int h) {
 void checkLine(MData map[MAP_SIZE_H][MAP_SIZE_W], Location curLoc, int* score) {
 	int h, w, full;
 
-	for (h = MAP_SIZE_H; h >= (curLoc.y - h); h--) {
+	for (h = MAP_SIZE_H; h >= (curLoc.y - 1); h--) {//
 		full = 0;
 		for (w = 0; w < MAP_SIZE_W; w++) {
 			if (map[h][w] == EMPTY) {
@@ -548,7 +551,7 @@ int gameOver(MData map[MAP_SIZE_H][MAP_SIZE_W], int score, int bestScore) {
 	FILE* wfp;
 	int w = 0;
 	for (w = 0; w < MAP_SIZE_W; w++) {
-		if (map[0][h] == BLOCK) {
+		if (map[0][w] == BLOCK) {
 			HANDLE hand = GetStdHandle(STD_OUTPUT_HANDLE);
 			SetConsoleTextAttribute(hand, 14);
 			goToXy(HALF_W - 7, HALF_H - 2);
@@ -574,16 +577,93 @@ int gameOver(MData map[MAP_SIZE_H][MAP_SIZE_W], int score, int bestScore) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int gameStart(MData map[MAP_SIZE_H][MAP_SIZE_W]) {
+	int key;
+	int reachBottom = FALSE;
+	int one = TRUE;
+	int score = 0, bestScore = 0;
+	int blockShape[4][4] = { 0 };
+	int blockShapeSub[4][4] = { 0 };
+	Location curLoc = { 0, 3 };
+	FILE* rfp;
+	if ((rfp = fopen("score.txt", "r")) == NULL) {
+		FILE* wfp;
+		wfp = fopen("score.txt", "w");
+		fprintf(wfp, "%d", 0);
+		fclose(wfp);
+	} else fscanf(rfp, "%d", &bestScore);
 
+	mapInit(map);
+	drawWall(map);
+	drawMap(map);
+
+	locationInit(&curLoc);
+	setBlock(blockShape);
+	startTime();
+	setBlock(blockShapeSub);
+	drawSubShape(map, blockShapeSub);
+	while (1) {
+		if (reachBottom == TRUE) {
+			if (gameOver(map, score, bestScore)) return EXIT;
+
+			checkLine(map, curLoc, &score);
+			checkLine(map, curLoc, &score);//
+			locationInit(&curLoc);
+			copyBlock(blockShape, blockShapeSub);
+			setBlock(blockShapeSub);
+			drawSubShape(map, blockShapeSub);
+			reachBottom = FALSE;
+		}
+		drawSubMap(bestScore, score);
+		drawShape(map, blockShape, curLoc);
+		drawMap(map);
+		reachBottom = goDown(map, blockShape, &curLoc);
+		if (reachBottom == TRUE) continue;
+
+		key = getKeyDown();
+		if (key == 't' || key == 'T') break;
+		if (key == 'p' || key == 'P') {
+			system("pause"); system("cls");
+			drawMap(map); drawWall(map);
+		}
+		if (key == SPACE) {
+			goSpace(map, blockShape, &curLoc);
+		}
+		if (key == 224 || key == 0) {
+			key = _getch();
+			if (key == UP) {
+				rotate(map, blockShape, &curLoc);
+			}
+			else if (key == LEFT) {
+				goLeft(map, blockShape, &curLoc);
+			}
+			else if (key == RIGHT) {
+				goRight(map, blockShape, &curLoc);
+			}
+		}
+	}
+	return EXIT;
+}
 
 
 
 
 int main(void) {
-	char map[MAP_SIZE_H][MAP_SIZE_W];
+	char map[MAP_SIZE_H][MAP_SIZE_W] = { 0 };
+	int key;
+	hideCursor();
 
-	drawFrontMenu();
-	drawWall(map);
+	system("color 7");
+	system("mode con: cols=57 lines=25");
+
+	while (1) {
+		key = drawFrontMenu();
+		if (key == 't' || key == 'T') break;
+		system("cls");
+		gameStart(map);
+		Sleep(1000 / 3);
+		system("cls");
+	}
 
 	return 0;
 }

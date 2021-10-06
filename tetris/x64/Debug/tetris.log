@@ -44,4 +44,4 @@ C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(638,17): warning C4024: '
 C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(641,28): warning C4047: 'function': 'int' differs in levels of indirection from 'int [4][4]'
 C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(641,18): warning C4024: 'goRight': different types for formal and actual parameter 2
 C:\Users\82104\Documents\GitHub\tetris\tetris\Tetris.c(416): warning C4716: 'fixShape': must return a value
-  tetris.vcxproj -> C:\Users\82104\Documents\GitHub\tetris\tetris\Debug\tetris.exe
+  tetris.vcxproj -> C:\Users\82104\Documents\GitHub\tetris\tetris\x64\Debug\tetris.exe
